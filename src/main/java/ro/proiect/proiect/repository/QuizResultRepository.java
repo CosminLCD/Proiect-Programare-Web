@@ -1,4 +1,7 @@
 package ro.proiect.proiect.repository;
 
-public interface QuizResultRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import ro.proiect.proiect.QuizResult;
+
+public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
 }

@@ -1,5 +1,10 @@
 package ro.proiect.proiect.dto;
 
-public class AuthRequest {
-    
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data // <-- ADAUGĂ ACEASTĂ LINIE
+@AllArgsConstructor
+public class AuthResponse {
+    private String token;
 }
