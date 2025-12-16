@@ -7,6 +7,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors; // Adaugă acest import dacă nu există
 
 import java.security.Key;
 import java.util.Date;
@@ -27,7 +28,18 @@ public class JwtUtil {
 
     // Generează un token pentru un utilizator
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> extraClaims = new HashMap<>();
+
+        // --- AICI ESTE MODIFICAREA CHEIE ---
+        // Preluăm autoritățile (rolurile) și le punem în token sub cheia "authorities"
+        var authorities = userDetails.getAuthorities()
+                .stream()
+                .map(auth -> auth.getAuthority())
+                .collect(Collectors.toList());
+        extraClaims.put("authorities", authorities);
+        // ------------------------------------
+
+        return generateToken(extraClaims, userDetails);
     }
 
     // Verifică dacă token-ul este valid

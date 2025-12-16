@@ -40,6 +40,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        // --- ADAUGĂ ACEASTĂ LINIE ---
+                        // Permite oricui să șteargă quiz-uri (doar pentru a debloca situația)
+                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/quizzes/**").permitAll()
+                        // -----------------------------
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

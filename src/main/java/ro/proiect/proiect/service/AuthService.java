@@ -26,8 +26,12 @@ public class AuthService {
         // Criptăm parola înainte de a o salva!
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         // Toți userii noi sunt GUEST. Adminii pot fi adăugați manual în BD sau printr-un endpoint special.
-        user.setRole(Role.GUEST);
-
+        // Dacă clientul trimite "ADMIN", setăm rolul de admin. Altfel, rămâne GUEST.
+        if ("ADMIN".equalsIgnoreCase(request.getRole())) {
+            user.setRole(Role.ADMIN);
+        } else {
+            user.setRole(Role.GUEST);
+        }
         userRepository.save(user);
     }
 }

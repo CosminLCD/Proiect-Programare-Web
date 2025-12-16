@@ -1,9 +1,11 @@
 package ro.proiect.proiect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Getter
 @Setter
@@ -16,7 +18,8 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @JsonBackReference
+    @JsonIgnore
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers;
 }
